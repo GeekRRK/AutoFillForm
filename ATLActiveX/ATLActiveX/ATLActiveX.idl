@@ -1,0 +1,71 @@
+// ATLActiveX.idl : ATLActiveX 的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(ATLActiveX.tlb)和封送处理代码。
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(a817e7a2-43fa-11d0-9e44-00aa00b6770a),
+	dual,	
+	pointer_default(unique)
+]
+interface IComponentRegistrar : IDispatch
+{
+	[id(1)]	HRESULT Attach([in] BSTR bstrPath);
+	[id(2)]	HRESULT RegisterAll();
+	[id(3)]	HRESULT UnregisterAll();
+	[id(4)]	HRESULT GetComponents([out] SAFEARRAY(BSTR)* pbstrCLSIDs, [out] SAFEARRAY(BSTR)* pbstrDescriptions);
+	[id(5)]	HRESULT RegisterComponent([in] BSTR bstrCLSID);
+	[id(6)] HRESULT UnregisterComponent([in] BSTR bstrCLSID);
+};
+
+[
+	object,
+	uuid(B222902F-02B5-48F8-817F-F589B5E17A2C),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IIEControl : IDispatch{
+	[id(1)] HRESULT test(void);
+};
+
+[
+	uuid(95FA6526-05F8-4C7B-AE9B-5E5D99BC6B82),
+	version(1.0),
+	custom(a817e7a1-43fa-11d0-9e44-00aa00b6770a,"{BE76B85A-1493-4248-8E09-8FA5E0142A38}")
+]
+library ATLActiveXLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(BE76B85A-1493-4248-8E09-8FA5E0142A38)		
+	]
+	coclass CompReg
+	{
+		[default] interface IComponentRegistrar;
+	};
+	[
+		uuid(753C80F8-A84B-410F-B7A0-E9F417B2F77F)		
+	]
+	dispinterface _IIEControlEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(42CC3B43-C167-458C-8E9A-7CCD0E12C59A),		
+		control
+	]
+	coclass IEControl
+	{
+		[default] interface IIEControl;
+		[default, source] dispinterface _IIEControlEvents;
+	};
+};
+
