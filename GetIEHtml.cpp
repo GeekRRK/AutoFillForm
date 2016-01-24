@@ -1,4 +1,8 @@
-// GetIEHtml.cpp : ¶¨ÒåÓ¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// Refer to: 
+// http://blog.csdn.net/chenyujing1234/article/details/7668484
+// http://www.cnblogs.com/qguohog/archive/2013/01/25/2876828.html
+
+// GetIEHtml.cpp : å®šä¹‰åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -90,7 +94,7 @@ VARIANT StringToVariant(LPCTSTR str)
 //
 //
 //
-//	// È«²¿±éÀúÖ®ºóÈÔÈ»Ã»ÓĞ½á¹û
+//	// å…¨éƒ¨éå†ä¹‹åä»ç„¶æ²¡æœ‰ç»“æœ
 //	return E_FAIL;
 //}
 
@@ -134,7 +138,7 @@ void EnumFrame(CComPtr<IHTMLDocument2> spDoc2, CComBSTR innerCode)
 		VARIANT varResult;
 		if (pFrames->item(&varIndex, &varResult) == S_OK) {
 			CComPtr<IDispatch> pDispatch;
-			pDispatch = varResult.pdispVal;			// µÃµ½ÁË frameµÄDispatch
+			pDispatch = varResult.pdispVal;			// å¾—åˆ°äº† frameçš„Dispatch
 
 			CComQIPtr<IHTMLWindow2> spWnd2(pDispatch);
 
@@ -180,7 +184,7 @@ void OnGetDocInterface(HWND hWnd)
 	// Explicitly load MSAA so we know if it's installed
 	HINSTANCE hInst = ::LoadLibrary( _T("OLEACC.DLL") );
 	if (hInst == NULL) {
-		MessageBox(NULL, TEXT("¼ÓÔØOLEACC.DLLÊ§°Ü"), NULL, MB_OK);
+		MessageBox(NULL, TEXT("åŠ è½½OLEACC.DLLå¤±è´¥"), NULL, MB_OK);
 		return;
 	}
 
@@ -188,7 +192,7 @@ void OnGetDocInterface(HWND hWnd)
 	// Get 1st document window
 	::EnumChildWindows( hWnd, EnumChildProc, (LPARAM)&hWndChild );
 	if (hWndChild == NULL) {
-		MessageBox(NULL, TEXT("Internet Explorer_Server Ã»ÕÒµ½"), NULL, MB_OK);
+		MessageBox(NULL, TEXT("Internet Explorer_Server æ²¡æ‰¾åˆ°"), NULL, MB_OK);
 		return;
 	}
 
@@ -204,12 +208,12 @@ void OnGetDocInterface(HWND hWnd)
 		CComPtr<IHTMLDocument2> spDoc2;
 		hr = pfObjectFromLresult(lRes, IID_IHTMLDocument2, 0, (void**)&spDoc2);
 		if (FAILED(hr)) {
-			MessageBox(NULL, TEXT("IID_IHTMLDocument½Ó¿ÚÃ»ÕÒµ½"), NULL, MB_OK);
+			MessageBox(NULL, TEXT("IID_IHTMLDocumentæ¥å£æ²¡æ‰¾åˆ°"), NULL, MB_OK);
 			return;
 		}
 
 		CComBSTR      bstrtitle;  
-		spDoc2->get_title(&bstrtitle);		//È¡µÃÎÄµµ±êÌâ
+		spDoc2->get_title(&bstrtitle);		//å–å¾—æ–‡æ¡£æ ‡é¢˜
 		MessageBox(NULL, bstrtitle, TEXT("Title"), MB_OK);
 		spDoc2->get_URL(&bstrtitle);
 		MessageBox(NULL, bstrtitle, TEXT("Url"), MB_OK);
@@ -218,7 +222,7 @@ void OnGetDocInterface(HWND hWnd)
 		hr = spDoc2->get_body(&pBody);
 		pBody->get_outerHTML(&bstrtitle);*/
 
-		// »ñÈ¡ÍøÒ³ÔªËØ
+		// è·å–ç½‘é¡µå…ƒç´ 
 		//CComPtr<IHTMLElementCollection> pColl;
 		//hr = spDoc2->get_all(&pColl);
 		//long len = 0;
@@ -248,15 +252,15 @@ void OnGetDocInterface(HWND hWnd)
 		//V_I4(&index) = 0;  
 
 		//VARIANT varID;
-		//varID = StringToVariant(_T("edt"));			//¿Ø¼şµÄID
-		//hr = pColl->item(varID, index, &pDisp);		// »ñÈ¡Ö¸¶¨ID¿Ø¼şµÄÎ»ÖÃ
+		//varID = StringToVariant(_T("edt"));			//æ§ä»¶çš„ID
+		//hr = pColl->item(varID, index, &pDisp);		// è·å–æŒ‡å®šIDæ§ä»¶çš„ä½ç½®
 		//if (hr == S_OK) {
 		//	CComQIPtr<IHTMLElement> pElem = pDisp;
 		//	CComBSTR str = SysAllocString(L"javascript");
 		//	hr = pElem->put_innerText(str);
 		//}
 
-		// ĞŞ¸ÄUrl
+		// ä¿®æ”¹Url
 		CComPtr<IWebBrowser2> pWebBrowser2;
 		CComPtr<IHTMLWindow2> spWnd2;
 		CComPtr<IServiceProvider>spServiceProv;
@@ -274,9 +278,9 @@ void OnGetDocInterface(HWND hWnd)
 			SysFreeString(strSearch);
 			}
 			}*/
-			// ĞŞ¸ÄÒ³Ãæ
+			// ä¿®æ”¹é¡µé¢
 			CComBSTR innerCode;
-			// ¶ş´Î½Ù³Ö
+			// äºŒæ¬¡åŠ«æŒ
 			innerCode.Append(TEXT("(function () {"));
 			innerCode.Append(TEXT("function cq_a_click() {"));
 			innerCode.Append(TEXT("var aspan = document.getElementsByTagName(\"a\");"));
